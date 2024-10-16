@@ -38,6 +38,64 @@ istioctl install --set profile=ambient
 kubectl apply -f gateways/istio-ambient/gateway.yaml
 ```
 
+### Istio Mesh 
+
+```
+istioctl install --set profile=minimal
+```
+
+### Gloo Gateway 
+
+https://docs.solo.io/gateway/main/quickstart/
+
+## glooctl
+
+1. Install glooctl
+```
+curl -sL https://run.solo.io/gloo/install | sh
+export PATH=$HOME/.gloo/bin:$PATH
+```
+
+2. Install via glooctl
+```
+glooctl install gateway --values - << EOF
+discovery:
+  enabled: false
+gatewayProxies:
+  gatewayProxy:
+    disabled: true
+gloo:
+  disableLeaderElection: true
+kubeGateway:
+  enabled: true
+EOF 
+```
+
+## helm
+
+1. Add helm repo
+```
+helm repo add gloo https://storage.googleapis.com/solo-public-helm
+helm repo update
+```
+
+2. Install via helm
+```
+helm install gloo gloo/gloo --namespace gloo-system --create-namespace -f -<<EOF
+discovery:
+  enabled: false
+gatewayProxies:
+  gatewayProxy:
+    disabled: true
+gloo:
+  disableLeaderElection: true
+kubeGateway:
+  enabled: true
+EOF
+```
+
+### 
+
 4. Allow Argo Rollouts to edit Http Routes
 
 ```
