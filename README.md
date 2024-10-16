@@ -94,7 +94,11 @@ kubeGateway:
 EOF
 ```
 
-### 
+### NGNIX Fabric 
+
+```
+helm install ngf oci://ghcr.io/nginxinc/charts/nginx-gateway-fabric --create-namespace -n nginx-gateway
+```
 
 4. Allow Argo Rollouts to edit Http Routes
 
@@ -172,3 +176,16 @@ kubectl argo rollouts promote rollouts-demo
 ```
 kubectl port-forward -n <gw-ns> port-forward service/<gw-svc> 8888:80 &
 ```
+
+
+For example:
+```
+kubectl port-forward port-forward service/envoy-default-gw-3d45476e 8888:80 -n envoy-gateway-system &
+
+
+kubectl port-forward service/gloo-proxy-http 8888:8080 & 
+
+kubectl port-forward service/ngf-nginx-gateway-fabric 8888:80 -n nginx-gateway &
+```
+
+
