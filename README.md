@@ -198,7 +198,7 @@ kubectl apply -f gateways/<provider>/httproute.yaml
 ## 9. Perform a Canary
 
 ```
-kubectl apply -f argo/rollout.yaml
+kubectl apply -f argo/rollout-blue.yaml
 ```
 
 ```
@@ -209,7 +209,25 @@ kubectl argo rollouts get rollout rollouts-demo
 kubectl argo rollouts promote rollouts-demo
 ```
 
-## 10. View in Argo Rollouts UI
+Now switch to yellow:
+```
+kubectl apply -f argo/rollout-yellow.yaml
+```
+
+```
+kubectl argo rollouts get rollout rollouts-demo
+```
+
+Check the HTTPRoute:
+```
+kubectl get httproute -o yaml
+```
+
+```
+kubectl argo rollouts promote rollouts-demo
+```
+
+## 10. View in Argo Rollouts Demo UI
 
 ```
 kubectl port-forward -n <gw-ns> service/<gw-svc> 8888:80 &
@@ -225,7 +243,11 @@ kubectl port-forward service/gloo-proxy-http 8888:8080 &
 
 kubectl port-forward service/ngf-nginx-gateway-fabric 8888:80 -n nginx-gateway &
 
-
+kubectl port-forward services/gw-istio -n default 8888:80
 ```
 
 
+View Argo's dashboard:
+```
+kubectl argo rollouts dashboard
+```
