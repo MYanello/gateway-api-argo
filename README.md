@@ -1,20 +1,63 @@
 # gateway-api-argo
 
 ### Requirements
-1. Setup argo kubectl plugin
+## 1. Setup argo kubectl plugin: 
 
-1. Setup k3s cluster
+See: https://argoproj.github.io/argo-rollouts/features/kubectl-plugin/ 
+
+```
+curl -LO https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-linux-amd64
+
+chmod +x ./kubectl-argo-rollouts-darwin-amd64
+
+sudo mv ./kubectl-argo-rollouts-darwin-amd64 /usr/local/bin/kubectl-argo-rollouts
+```
+
+Check it's installed:
+```
+kubectl argo rollouts version
+```
+
+## 2. Setup k3s cluster
 
 ./setup-env.sh
 
-2. Install argo 
+## 3. Install Gateway APIs
+
+```
+kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml
+```
+
+## 4. Install argo 
+
+Create namespace:
 
 ```
 kubectl create namespace argo-rollouts
-kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
 ```
 
-3. Pick a gateway! 
+Apply config crds:
+```
+kubectl apply -k https://github.com/argoproj/argo-rollouts/manifests/crds\?ref\=v1.7.2
+```
+
+```
+kubectl apply -n argo-rollouts -f https://github.com/argoproj/argo-rollouts/releases/download/v1.7.2/install.yaml
+```
+
+Create ClusterRole for K8s Gateway plugin
+
+```
+kubectl apply -f argo/gw-clusterrole.yaml
+```
+
+Restart
+
+```
+kubectl rollout restart deployment -n argo-rollouts argo-rollouts
+```
+
+## 5. Pick a gateway! 
 
 ### Envoy Gateway
 
@@ -134,34 +177,29 @@ subjects:
 
 ```
 
-5. Create an HTTPRoute
+## 6. Create a Gateway
 
 ```
----
-kind: HTTPRoute
-apiVersion: gateway.networking.k8s.io/v1beta1
-metadata:
-  name: argo-rollouts-http-route
-  namespace: default
-spec:
-  parentRefs:
-    - name: eg
-  rules:
-  - matches:
-    - path:
-        type: PathPrefix
-        value: /
-    backendRefs:
-    - name: argo-rollouts-stable-service
-      kind: Service
-      port: 80
-    - name: argo-rollouts-canary-service
-      kind: Service
-      port: 80
-
+kubectl apply -f gateways/<provider>/gateway.yaml
 ```
 
-6. Perform a Canary
+## 7. Apply sample apps 
+
+```
+kubectl apply -f example_apps/svc.yaml
+```
+
+## 8. Create an HTTPRoute
+
+```
+kubectl apply -f gateways/<provider>/httproute.yaml
+```
+
+## 9. Perform a Canary
+
+```
+kubectl apply -f argo/rollout.yaml
+```
 
 ```
 kubectl argo rollouts get rollout rollouts-demo
@@ -171,21 +209,23 @@ kubectl argo rollouts get rollout rollouts-demo
 kubectl argo rollouts promote rollouts-demo
 ```
 
-7. View in Argo Rollouts UI
+## 10. View in Argo Rollouts UI
 
 ```
-kubectl port-forward -n <gw-ns> port-forward service/<gw-svc> 8888:80 &
+kubectl port-forward -n <gw-ns> service/<gw-svc> 8888:80 &
 ```
 
 
 For example:
 ```
-kubectl port-forward port-forward service/envoy-default-gw-3d45476e 8888:80 -n envoy-gateway-system &
+kubectl port-forward service/envoy-default-gw-3d45476e 8888:80 -n envoy-gateway-system &
 
 
 kubectl port-forward service/gloo-proxy-http 8888:8080 & 
 
 kubectl port-forward service/ngf-nginx-gateway-fabric 8888:80 -n nginx-gateway &
+
+
 ```
 
 
