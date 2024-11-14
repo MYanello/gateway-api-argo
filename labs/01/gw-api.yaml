@@ -1,0 +1,30 @@
+apiVersion: gateway.networking.k8s.io/v1
+kind: Gateway
+metadata:
+  name: gateway
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: default
+    port: 80
+    protocol: HTTP
+    allowedRoutes:
+      namespaces:
+        from: All
+---
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: rollouts-demo
+spec:
+  parentRefs:
+    - name: gateway
+  rules:
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /  
+    backendRefs:
+    - name: rollouts-demo
+      kind: Service
+      port: 80

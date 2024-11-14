@@ -1,0 +1,30 @@
+kind: HTTPRoute
+apiVersion: gateway.networking.k8s.io/v1beta1
+metadata:
+  name: argo-rollouts-http-route
+spec:
+  parentRefs:
+    - name: gw
+  rules:
+    - matches:
+        - path:
+            type: PathPrefix
+            value: /favorite-color
+      filters:
+        - type: URLRewrite
+          urlRewrite:
+            path:
+              type: ReplaceFullPath
+              replaceFullPath: /color
+        - type: ResponseHeaderModifier
+          responseHeaderModifier:
+            add:
+            - name: x-location
+              value: "salt-lake-city"
+      backendRefs:
+      - name: rollouts-demo-stable
+        kind: Service
+        port: 80
+      - name: rollouts-demo-canary
+        kind: Service
+        port: 80
