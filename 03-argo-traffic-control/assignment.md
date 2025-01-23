@@ -229,13 +229,12 @@ So the argo rollouts controller took care of the following:
  3. Modify weights on the `VirtualService` to match which step we are at
 
 Let's see it in action.
-Switch back to the demo app and you should see roughly 25% of the requests result in a yellow square, something like:
-insert screenshot here
+Switch back to the demo app and you should see roughly 25% of the requests result in a yellow square
 
 The Rollout is paused waiting for feedback. In our case, we have validated that the new yellow version of our app works great, so let's go ahead and promote the rollout.
 
 ```bash,run
-kubectl argo rollouts promote rollouts-demo
+kubectl argo rollouts promote rollouts-demo &&
 kubectl argo rollouts get rollout rollouts-demo --watch
 ```
 

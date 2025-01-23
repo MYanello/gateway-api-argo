@@ -57,18 +57,57 @@ clear
 # pe "kubectl argo rollouts abort rollouts-demo"
 # pei "kubectl argo rollouts get rollout rollouts-demo --watch"
 
-# Can also do a full promotion all at once with --full
-#
+# p "Can also do a full promotion all at once with --full"
+
 # p "Lab 3"
 # pe "istioctl install -y"
 # pe "kubectl get deploy -n istio-system"
 # pe "kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}'"
-pe "export GW_ADDRESS=$(kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+# pe "export GW_ADDRESS=$(kubectl get svc -n istio-system istio-ingressgateway -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
 
-# pe "bat labs/03/services.yaml"
 # p "Create the canary and stable services"
+# pe "bat labs/03/services.yaml"
 # pe "kubectl apply -f labs/03/services.yaml"
 
-p "Create the istio routing config"
-pe "bat labs/03/istio-basic.yaml"
-pe "kubectl apply -f labs/03/istio-basic.yaml"
+# p "Create the istio routing config"
+# pe "bat labs/03/istio-basic.yaml"
+# pe "kubectl apply -f labs/03/istio-basic.yaml"
+
+# p "Create the initial rollout"
+# pe "git -P diff --no-index labs/02/rollout.yaml labs/03/rollout.yaml"
+# pe "kubectl apply -f labs/03/rollout.yaml"
+# pe "kubectl get all"
+# pe "kubectl get rollouts.argoproj.io"
+# pe "kubectl get svc rollouts-demo-stable -o yaml | yq"
+# pe "kubectl argo rollouts get rollout rollouts-demo"
+# pe "curl -v -w "\n" $GW_ADDRESS/color"
+# pe "kubectl port-forward -n istio-system service/istio-ingressgateway 8080:80 --address 0.0.0.0"
+# 
+# p "Update the Rollout"
+# pe "kubectl apply -f labs/03/rollout-yellow.yaml"
+# pe "kubectl get svc rollouts-demo-stable -o yaml | yq '.spec.selector'"
+# 
+# p "Promote the canary"
+# pe "kubectl argo rollouts promote rollouts-demo"
+# pe "kubectl argo rollouts get rollout rollouts-demo --watch"
+# 
+# p "Header based routing"
+# pe "git -P diff --no-index labs/03/rollout-yellow.yaml labs/03/rollout-with-header.yaml"
+# pe "kubectl apply -f labs/03/rollout-with-header.yaml"
+# pe "kubectl argo rollouts set image rollouts-demo rollouts-demo=argoproj/rollouts-demo:orange"
+# pe "kubectl get virtualservices.networking.istio.io rollouts-demo -o yaml | yq"
+# pe "for i in {1..10}; do curl -H 'x-rollout-canary: true' $GW_ADDRESS/color; echo; done"
+# pe "for i in {1..10}; do curl $GW_ADDRESS/color; echo; done"
+# pe "kubectl argo rollouts promote rollouts-demo"
+
+# p "Cleanup"
+# pe "kubectl delete -f labs/03/services.yaml"
+# pe "kubectl delete -f labs/03/rollout.yaml"
+# pe "kubectl delete -f labs/03/istio-basic.yaml"
+
+# p "Lab 4"
+# pe "kubectl apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.0.0/standard-install.yaml"
+# pe "cat labs/04/istio-gateway.yaml | yq"
+pe "export GW_NAMESPACE=default"
+pe "export GW_ADDRESS=\$(kubectl get svc -n $GW_NAMESPACE gw-istio -o jsonpath='{.status.loadBalancer.ingress[0].ip}')"
+pe "echo $GW_ADDRESS"
