@@ -104,7 +104,7 @@ helm upgrade --install eg oci://docker.io/envoyproxy/gateway-helm --version v1.1
 2. Create the Gateway Class resource
 
 ```bash,run
-cat labs/07/envoy-gateway-class.yaml | yq
+bat labs/07/envoy-gateway-class.yaml | yq
 ```
 
 Apply the config:
@@ -129,7 +129,7 @@ gw               gateway.envoyproxy.io/gatewayclass-controller   True       58s
 3. Create the Gateway resources
 
 ```bash,run
-cat labs/07/envoy-gateway.yaml | yq
+bat labs/07/envoy-gateway.yaml | yq
 ```
 
 Replace the Istio Gateway we created earlier:
@@ -196,7 +196,7 @@ nginx            gateway.nginx.org/nginx-gateway-controller      True       103s
 3. Apply a Gateway
 
 ```bash,run
-cat labs/07/ngnix-gateway.yaml | yq
+bat labs/07/ngnix-gateway.yaml | yq
 ```
 
 ```bash,run
@@ -237,7 +237,7 @@ kubectl port-forward service/ngf-nginx-gateway-fabric -n nginx-gateway 8080:80 -
 
 Create an HTTPRoute that selects the Gateway:
 ```bash,run
-cat labs/07/argo-httproute.yaml | yq
+bat labs/07/argo-httproute.yaml | yq
 ```
 
 Notice the HTTPRoute select the Gateway we created earlier via the `parentRefs`:

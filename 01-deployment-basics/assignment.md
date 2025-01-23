@@ -28,7 +28,7 @@ This demo application visualizes the various deployment strategies and progressi
 Let's take a look at the manifest:
 
 ```bash,run
-cat labs/01/basic-demo-app.yaml | yq
+bat labs/01/basic-demo-app.yaml | yq
 ```
 
 Of note, we specify a certain number of replicas, a Pod template, and a `strategy` which dictates how updates are performed. We are using the `RollingUpdate` strategy, which will progressively spins up new versions of the application before scaling down old versions. There are a few knobs available to tune how the rolling update occurs, such as `maxSurge` and `maxUnavailable`.

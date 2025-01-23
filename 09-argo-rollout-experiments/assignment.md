@@ -17,7 +17,7 @@ Create an AnalysisTemplate
 
 We will reuse the `argoproj/load-tester` job metric provider to run wrk (https://github.com/wg/wrk), an HTTP benchmarking tool, against the supplied hostname to calculate an error rate.
 ```bash,run
-cat labs/09/analysis-template.yaml | yq
+bat labs/09/analysis-template.yaml | yq
 ```
 
 
@@ -32,7 +32,7 @@ Create an Experiment 🔎
 Now, let’s create an Experiment resource to run both versions in parallel and evaluate their performance:
 
 ```bash,run
-cat labs/09/argo-experiment.yaml | yq
+bat labs/09/argo-experiment.yaml | yq
 ```
 
 Notice the v2 version is using the `bad-orange` version of the image with a high error rate.

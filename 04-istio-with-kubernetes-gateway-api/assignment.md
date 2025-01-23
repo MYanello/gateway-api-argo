@@ -73,7 +73,7 @@ In this case, it detected the presence of the `GatewayClass` CRD and then create
 
 Our first step is to use the Kubernetes Gateway API to create a Gateway:
 ```bash,run
-cat labs/04/istio-gateway.yaml | yq
+bat labs/04/istio-gateway.yaml | yq
 ```
 
 Notice the `gatewayClassName: istio` matches the GatewayClass resource from the previous step.
@@ -131,7 +131,7 @@ Apply HTTPRoute to the Gateway namespace
 Next, we will use a new Gateway API resource, [HTTPRoute](https://gateway-api.sigs.k8s.io/guides/http-routing/) to direct traffic to our Kubernetes backends.
 
 ```bash,run
-cat labs/04/argo-httproute.yaml | yq
+bat labs/04/argo-httproute.yaml | yq
 ```
 
 Notice the HTTPRoute select the Gateway we created earlier via the `parentRefs`:
@@ -170,7 +170,7 @@ URL Rewrite with Gateway API
 
 Let's take a look at the config:
 ```bash,run
-cat labs/04/url-rewrite.yaml | yq
+bat labs/04/url-rewrite.yaml | yq
 ```
 
 In order to get the URL Rewrite to work with Kubernetes Gateway API we need to add a filter to the rule:

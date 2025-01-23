@@ -24,7 +24,7 @@ EOF
 2. Change the Argo Rollouts config map to install the Argo Rollout Gateway API Plugin.
 
 ```bash,run
-cat labs/05/configmap.yaml | yq
+bat labs/05/configmap.yaml | yq
 ```
 
 Notice the `trafficRouterPlugins` is using the gateway API plugin.
@@ -44,7 +44,7 @@ kubectl rollout restart deployment -n argo-rollouts argo-rollouts
 A [ClusterRole](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#role-and-clusterrole) in Kubernetes is a cluster-wide resource that defines a set of permissions (rules) for accessing resources within a Kubernetes cluster. These permissions can include actions like get, list, create, delete, etc., on various resources such as pods, services, and nodes. Unlike a Role, which is restricted to a single namespace, a ClusterRole can apply either across all namespaces or to cluster-wide resources that are not namespaced.
 
 ```bash,run
-cat labs/05/clusterrole.yaml | yq
+bat labs/05/clusterrole.yaml | yq
 ```
 
 This provides permissions for Argo Rollouts to update the HTTPRoute with the correct weights.
@@ -59,7 +59,7 @@ kubectl apply -f labs/05/clusterrole.yaml
 A [ClusterRoleBinding](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#rolebinding-and-clusterrolebinding) is a Kubernetes resource that associates a ClusterRole (which defines a set of permissions) with one or more subjects (users, groups, or service accounts) at the cluster-wide level. This allows those subjects to perform specific actions across all namespaces within the cluster, based on the permissions defined in the ClusterRole.
 
 ```bash,run
-cat labs/05/clusterrolebinding.yaml | yq
+bat labs/05/clusterrolebinding.yaml | yq
 ```
 
 Apply the config:
@@ -118,7 +118,7 @@ Status:
 
 Let's take a look at our rollout:
 ```bash,run
-cat labs/05/rollout.yaml | yq
+bat labs/05/rollout.yaml | yq
 ```
 
 In the rollout.yaml file, we have set `replicas: 3`, which means we expect three replicas of our application to be created. For this lab, we are using the image `argoproj/rollouts-demo:green`, which will allow us to visualize the rollout process.

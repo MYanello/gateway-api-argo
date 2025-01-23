@@ -34,7 +34,7 @@ Traffic Routing with Istio
 
 View and create our K8s `Services`:
 ```bash,run
-cat labs/03/services.yaml | yq
+bat labs/03/services.yaml | yq
 kubectl apply -f labs/03/services.yaml
 ```
 
@@ -43,7 +43,7 @@ As the comments indicate, the selectors of these services will be modified by th
 
 View and create Istio-specific routing config:
 ```bash,run
-cat labs/03/istio-basic.yaml | yq
+bat labs/03/istio-basic.yaml | yq
 kubectl apply -f labs/03/istio-basic.yaml
 ```
 

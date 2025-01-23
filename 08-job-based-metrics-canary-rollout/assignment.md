@@ -12,7 +12,7 @@ Remember from the Istio Rollout example with metrics, Argo provides a [AnalysisT
 
 Let's take a look at the Job-based AnalysisTemplate:
 ```bash,run
-cat labs/08/analysis-template.yaml | yq
+bat labs/08/analysis-template.yaml | yq
 ```
 
 Notice the analysis we're using to calculate the `error_ratio`:
@@ -31,7 +31,7 @@ kubectl apply -f labs/08/analysis-template.yaml
 
 Deploy your rollout with the Job Analysis metrics configured:
 ```bash,run
-cat labs/08/job-metrics-rollout.yaml | yq
+bat labs/08/job-metrics-rollout.yaml | yq
 ```
 
 Apply the config:

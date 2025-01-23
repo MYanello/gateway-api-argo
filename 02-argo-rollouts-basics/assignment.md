@@ -29,7 +29,7 @@ argo-rollouts-65867bc597-hrh6v   1/1     Running   0          43s
 Now let's create a `Rollout` to manage and deploy our demo application.
 First we'll see what the file looks like:
 ```bash,run
-cat labs/02/rollout.yaml | yq
+bat labs/02/rollout.yaml | yq
 ```
 
 Now let's apply it:

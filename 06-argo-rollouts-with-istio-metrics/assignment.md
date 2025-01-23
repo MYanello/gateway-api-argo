@@ -103,7 +103,7 @@ While the rollout will traverse through the steps of shifting the traffic by upd
 
 Let's take a look at the config:
 ```bash,run
-cat labs/06/istio-analysis-template.yaml | yq
+bat labs/06/istio-analysis-template.yaml | yq
 ```
 
 Notice the prometheus query we're using to perform the analysis is the same query we tested earlier:
@@ -141,7 +141,7 @@ kubectl apply -f labs/06/istio-analysis-template.yaml
 
 Let's take a look at the config:
 ```bash,run
-cat labs/06/istio-metrics-rollout-good.yaml | yq
+bat labs/06/istio-metrics-rollout-good.yaml | yq
 ```
 
 Notice we are now using the analysis template under the `canary` strategy:
