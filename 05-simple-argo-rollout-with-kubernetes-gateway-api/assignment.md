@@ -278,7 +278,7 @@ NAME                                       KIND        STATUS     AGE    INFO
 After applying your Argo Rollout configuration, Argo will update the routing in the HTTPRoute. You can confirm that your rollout is configured correctly and observe any changes in traffic distribution between your services by inspecting the HTTPRoute:
 
 ```bash,run
-kubectl get httproute -o yaml
+kubectl get httproute -o yaml | yq
 ```
 
 You should see the weights on the backendRefs change from the original:
